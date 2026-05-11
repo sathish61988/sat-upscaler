@@ -27,301 +27,64 @@
         </a>
 
         <nav class="site-nav" aria-label="Primary">
-          <a href="#showcase">Showcase</a>
-          <a href="#features">Features</a>
-          <a href="#how-it-works">How It Works</a>
+          <a href="#workspace">Workspace</a>
+          <a href="#overview">Overview</a>
           <a href="#faq">FAQ</a>
         </nav>
 
-        <a class="nav-cta" href="#workspace">Try AI Upscale</a>
+        <button id="heroUploadBtn" class="nav-cta" type="button">Upload Image</button>
       </div>
     </header>
 
-    <main id="top" class="page-shell">
-      <section class="hero hero-landing">
-        <div class="hero-copy">
-          <p class="hero-kicker">Premium local enhancement</p>
-          <h1>Upscale. Enhance. Elevate.</h1>
+    <main id="top" class="page-shell compact-page-shell">
+      <section id="overview" class="dashboard-hero glass-panel">
+        <div class="dashboard-copy">
+          <p class="hero-kicker">Fast local super resolution</p>
+          <h1>Upload, upscale, compare.</h1>
           <p class="hero-body">
-            Transform blurry images into polished high-resolution visuals with a
-            premium AI-style workflow that runs fully in your browser.
+            A focused browser AI workspace with tiled inference, portrait and anime
+            profiles, and responsive previews built for fast interaction.
           </p>
-          <div class="hero-actions">
-            <button id="heroUploadBtn" class="hero-btn hero-btn-primary" type="button">
-              Upload Image
-            </button>
-            <a class="hero-btn hero-btn-secondary" href="#workspace">Try AI Upscale</a>
-          </div>
-          <div class="hero-proof">
-            <span>Frontend only</span>
-            <span>Fast local processing</span>
-            <span>JPG, PNG, WEBP</span>
+          <div class="hero-actions compact-hero-actions">
+            <a class="hero-btn hero-btn-secondary" href="#workspace">Open Workspace</a>
           </div>
         </div>
 
-        <div class="hero-showcase glass-panel">
-          <div class="hero-showcase-head">
-            <span class="hero-pill">Balanced / Sharp / Photo / Anime</span>
-            <span class="hero-pill">PNG / JPG / WEBP</span>
+        <div class="dashboard-meta">
+          <div class="quick-stat">
+            <strong>Browser AI</strong>
+            <span>Lazy-loaded ONNX runtime</span>
           </div>
-          <div class="hero-compare-card">
-            <div class="hero-demo hero-demo-before">
-              <span class="demo-label">Before</span>
-            </div>
-            <div class="hero-demo-divider"></div>
-            <div class="hero-demo hero-demo-after">
-              <span class="demo-label">After</span>
-            </div>
+          <div class="quick-stat">
+            <strong>Tile Rendering</strong>
+            <span>Responsive on large images</span>
+          </div>
+          <div class="quick-stat">
+            <strong>GPU First</strong>
+            <span>Graceful fallback ready</span>
           </div>
         </div>
       </section>
 
-      <section id="showcase" class="landing-section">
-        <div class="section-copy centered">
-          <p class="panel-label">Before / After Showcase</p>
-          <h2>See the difference in a glance</h2>
-          <p class="section-text">
-            Explore realistic demo scenes inspired by portraits, cityscapes, and
-            wildlife imagery with cleaner edges, richer contrast, and restored detail.
-          </p>
-        </div>
-
-        <div class="showcase-grid">
-          <article class="demo-card glass-panel">
-            <div class="demo-split">
-              <div class="demo-scene portrait before">
-                <span class="demo-badge">Before</span>
-              </div>
-              <div class="demo-scene portrait after">
-                <span class="demo-badge">After</span>
-              </div>
-              <div class="demo-center-line"></div>
-            </div>
-            <div class="demo-meta">
-              <strong>Portrait Recovery</strong>
-              <span>Sharper skin texture and eye detail</span>
-            </div>
-          </article>
-
-          <article class="demo-card glass-panel">
-            <div class="demo-split">
-              <div class="demo-scene city before">
-                <span class="demo-badge">Before</span>
-              </div>
-              <div class="demo-scene city after">
-                <span class="demo-badge">After</span>
-              </div>
-              <div class="demo-center-line"></div>
-            </div>
-            <div class="demo-meta">
-              <strong>City Light Detail</strong>
-              <span>Cleaner skyline edges and reduced haze</span>
-            </div>
-          </article>
-
-          <article class="demo-card glass-panel">
-            <div class="demo-split">
-              <div class="demo-scene wildlife before">
-                <span class="demo-badge">Before</span>
-              </div>
-              <div class="demo-scene wildlife after">
-                <span class="demo-badge">After</span>
-              </div>
-              <div class="demo-center-line"></div>
-            </div>
-            <div class="demo-meta">
-              <strong>Wildlife Clarity</strong>
-              <span>Enhanced feathers, colors, and contrast</span>
-            </div>
-          </article>
-        </div>
-      </section>
-
-      <section id="features" class="landing-section">
-        <div class="section-copy centered">
-          <p class="panel-label">Features</p>
-          <h2>Everything you need for fast, polished image enhancement</h2>
-        </div>
-
-        <div class="feature-strip landing-features">
-          <article class="feature-card glass-panel">
-            <div class="feature-icon icon-glow-cyan"></div>
-            <h3>Progressive Multi-Pass Upscale</h3>
-            <p>Cleaner scaling with better structure retention than one-pass resize.</p>
-          </article>
-          <article class="feature-card glass-panel">
-            <div class="feature-icon icon-glow-violet"></div>
-            <h3>Mode-Aware Enhancement</h3>
-            <p>Balanced, Sharp, Photo, and Anime adapt denoise and edge behavior.</p>
-          </article>
-          <article class="feature-card glass-panel">
-            <div class="feature-icon icon-glow-blue"></div>
-            <h3>Precision Export Controls</h3>
-            <p>Choose format, quality, output size preview, and custom file names.</p>
-          </article>
-          <article class="feature-card glass-panel">
-            <div class="feature-icon icon-glow-cyan"></div>
-            <h3>Before / After Compare</h3>
-            <p>Inspect improvements with zoomable previews and fullscreen compare mode.</p>
-          </article>
-          <article class="feature-card glass-panel">
-            <div class="feature-icon icon-glow-violet"></div>
-            <h3>Clipboard + Drag & Drop</h3>
-            <p>Paste images instantly or drag files into the workspace with smooth micro-animations.</p>
-          </article>
-          <article class="feature-card glass-panel">
-            <div class="feature-icon icon-glow-blue"></div>
-            <h3>Fully Local Processing</h3>
-            <p>No backend, no uploads, and no external AI API required to run the app.</p>
-          </article>
-        </div>
-      </section>
-
-      <section id="how-it-works" class="landing-section">
-        <div class="section-copy centered">
-          <p class="panel-label">How It Works</p>
-          <h2>Simple workflow, professional results</h2>
-        </div>
-
-        <div class="steps-grid">
-          <article class="step-card glass-panel">
-            <span class="step-number">01</span>
-            <h3>Upload</h3>
-            <p>Add a JPG, PNG, or WEBP image by drag-and-drop, browse, or clipboard paste.</p>
-          </article>
-          <article class="step-card glass-panel">
-            <span class="step-number">02</span>
-            <h3>Choose Mode</h3>
-            <p>Select the best enhancement preset and fine tune denoise and sharpness sliders.</p>
-          </article>
-          <article class="step-card glass-panel">
-            <span class="step-number">03</span>
-            <h3>Upscale</h3>
-            <p>Run a 2x or 4x upscale with progressive passes, edge recovery, and detail protection.</p>
-          </article>
-          <article class="step-card glass-panel">
-            <span class="step-number">04</span>
-            <h3>Export</h3>
-            <p>Download the final result in your preferred format with custom filename and quality settings.</p>
-          </article>
-        </div>
-      </section>
-
-      <section class="landing-section">
-        <div class="section-copy centered">
-          <p class="panel-label">Supported Formats</p>
-          <h2>Built for common creative workflows</h2>
-        </div>
-
-        <div class="formats-row glass-panel">
-          <span class="format-pill">JPG</span>
-          <span class="format-pill">PNG</span>
-          <span class="format-pill">WEBP</span>
-          <span class="format-pill">2x Upscale</span>
-          <span class="format-pill">4x Upscale</span>
-          <span class="format-pill">Local Export</span>
-        </div>
-      </section>
-
-      <section class="landing-section">
-        <div class="section-copy centered">
-          <p class="panel-label">Testimonials</p>
-          <h2>Loved by creators, sellers, and designers</h2>
-        </div>
-
-        <div class="testimonials-grid">
-          <article class="testimonial-card glass-panel">
-            <p>
-              “Sat Upscaler made old product shots feel usable again. The detail recovery
-              is strong without making edges look harsh.”
-            </p>
-            <strong>Emma R.</strong>
-            <span>Product Photographer</span>
-          </article>
-          <article class="testimonial-card glass-panel">
-            <p>
-              “The fullscreen comparison and export controls make this feel like a proper AI
-              tool, but everything stays in my browser.”
-            </p>
-            <strong>David L.</strong>
-            <span>Digital Artist</span>
-          </article>
-          <article class="testimonial-card glass-panel">
-            <p>
-              “For ecommerce edits, the Photo mode is especially useful. It sharpens details
-              and still keeps the output natural.”
-            </p>
-            <strong>Sophia M.</strong>
-            <span>Ecommerce Owner</span>
-          </article>
-        </div>
-      </section>
-
-      <section id="faq" class="landing-section">
-        <div class="section-copy centered">
-          <p class="panel-label">FAQ</p>
-          <h2>Questions people usually ask</h2>
-        </div>
-
-        <div class="faq-list">
-          <details class="faq-item glass-panel">
-            <summary>Does Sat Upscaler upload my image anywhere?</summary>
-            <p>No. The app runs locally in the browser with no backend or external API.</p>
-          </details>
-          <details class="faq-item glass-panel">
-            <summary>Which image formats are supported?</summary>
-            <p>You can work with JPG, PNG, and WEBP input files and export to PNG, JPG, or WEBP.</p>
-          </details>
-          <details class="faq-item glass-panel">
-            <summary>What is the difference between the upscale modes?</summary>
-            <p>Balanced is general purpose, Sharp favors crisp edges, Photo keeps a natural look, and Anime boosts line clarity.</p>
-          </details>
-          <details class="faq-item glass-panel">
-            <summary>Can I compare the result in detail?</summary>
-            <p>Yes. The app includes a comparison slider, zoom controls, and a fullscreen comparison modal.</p>
-          </details>
-        </div>
-      </section>
-
-      <section class="landing-section cta-banner glass-panel">
-        <div>
-          <p class="panel-label">Ready to enhance your images?</p>
-          <h2>Launch the upscaler workspace and try it now.</h2>
-        </div>
-        <div class="hero-actions">
-          <button id="ctaUploadBtn" class="hero-btn hero-btn-primary" type="button">
-            Upload Image
-          </button>
-          <a class="hero-btn hero-btn-secondary" href="#workspace">Try AI Upscale</a>
-        </div>
-      </section>
-
-      <section id="workspace" class="landing-section workspace-section">
-        <div class="section-copy centered workspace-intro">
-          <p class="panel-label">Workspace</p>
-          <h2>Use the app right here</h2>
-          <p class="section-text">
-            The real enhancement workspace is built into the page below, so you can go from
-            discovery to image processing without leaving the landing experience.
-          </p>
-        </div>
-
-        <section class="workspace">
+      <section id="workspace" class="workspace-shell">
+        <section class="workspace compact-workspace">
           <aside class="control-column glass-panel">
-            <div class="panel-head">
-              <p class="panel-label">Input</p>
-              <h2>Upload & Configure</h2>
-              <p class="panel-subtitle">Drag, tap, or paste an image. Everything stays local.</p>
+            <div class="panel-head compact-panel-head">
+              <div>
+                <p class="panel-label">Input</p>
+                <h2>Upload & Configure</h2>
+              </div>
+              <span id="timeEstimate" class="chip-label">Estimate: waiting</span>
             </div>
 
-            <label for="fileInput" id="dropzone" class="dropzone" aria-label="Upload an image">
+            <label for="fileInput" id="dropzone" class="dropzone compact-dropzone" aria-label="Upload an image">
               <input
                 type="file"
                 id="fileInput"
                 accept=".jpg,.jpeg,.png,.webp,image/jpeg,image/png,image/webp"
               />
               <div class="dropzone-glow" aria-hidden="true"></div>
-              <div class="dropzone-content">
+              <div class="dropzone-content compact-dropzone-content">
                 <div class="empty-illustration">
                   <span class="empty-ring"></span>
                   <span class="empty-dot"></span>
@@ -332,119 +95,102 @@
                 <div class="dropzone-tips">
                   <span>JPG, PNG, WEBP</span>
                   <span>Max 10MB</span>
-                  <span>Paste with Ctrl/Cmd + V</span>
+                  <span>Ctrl/Cmd + V</span>
                 </div>
               </div>
             </label>
 
-            <div class="status-card">
+            <div class="status-card compact-status-card">
               <p id="statusMessage" class="status-message" role="status" aria-live="polite">
                 Ready for your first image.
               </p>
             </div>
 
-            <div class="control-group">
-              <div class="group-head">
-                <h3>Enhancement</h3>
-                <span id="timeEstimate" class="chip-label">Estimate: waiting</span>
-              </div>
-
-              <label class="field">
-                <span>Upscale mode</span>
-                <select id="modeSelect">
-                  <option value="balanced" selected>Balanced</option>
-                  <option value="sharp">Sharp</option>
-                  <option value="photo">Photo</option>
-                  <option value="anime">Anime</option>
-                </select>
-              </label>
-
-              <div class="group-head group-head-secondary">
-                <h3>AI Runtime</h3>
-                <span id="aiStatus" class="chip-label">Lazy-loaded</span>
-              </div>
-
-              <label class="field">
-                <span>AI model profile</span>
-                <select id="aiProfileSelect">
-                  <option value="general" selected>General</option>
-                  <option value="portrait">Portrait</option>
-                  <option value="anime">Anime</option>
-                </select>
-              </label>
-
-              <p id="aiHint" class="helper-text">
-                Uses ONNX Runtime Web in a worker with GPU-first execution when
-                available, then falls back gracefully on low-end devices.
-              </p>
-
-              <div class="field">
-                <div class="field-head">
-                  <span>Denoise strength</span>
-                  <strong id="denoiseValue">20%</strong>
+            <div class="control-grid">
+              <div class="control-group">
+                <div class="group-head">
+                  <h3>Enhancement</h3>
+                  <span id="aiStatus" class="chip-label">Lazy-loaded</span>
                 </div>
-                <input id="denoiseSlider" type="range" min="0" max="100" value="20" />
+
+                <label class="field">
+                  <span>Upscale mode</span>
+                  <select id="modeSelect">
+                    <option value="balanced" selected>Balanced</option>
+                    <option value="sharp">Sharp</option>
+                    <option value="photo">Photo</option>
+                    <option value="anime">Anime</option>
+                  </select>
+                </label>
+
+                <label class="field">
+                  <span>AI model profile</span>
+                  <select id="aiProfileSelect">
+                    <option value="general" selected>General</option>
+                    <option value="portrait">Portrait</option>
+                    <option value="anime">Anime</option>
+                  </select>
+                </label>
+
+                <p id="aiHint" class="helper-text">
+                  AI profile: General. The ONNX model is lazy-loaded only when you start an upscale.
+                </p>
+
+                <div class="field">
+                  <div class="field-head">
+                    <span>Denoise strength</span>
+                    <strong id="denoiseValue">20%</strong>
+                  </div>
+                  <input id="denoiseSlider" type="range" min="0" max="100" value="20" />
+                </div>
+
+                <div class="field">
+                  <div class="field-head">
+                    <span>Sharpness intensity</span>
+                    <strong id="sharpnessValue">55%</strong>
+                  </div>
+                  <input id="sharpnessSlider" type="range" min="0" max="100" value="55" />
+                </div>
               </div>
 
-              <div class="field">
-                <div class="field-head">
-                  <span>Sharpness intensity</span>
-                  <strong id="sharpnessValue">55%</strong>
+              <div class="control-group">
+                <div class="group-head">
+                  <h3>Export</h3>
+                  <span id="outputPreview" class="chip-label">Output: waiting</span>
                 </div>
-                <input id="sharpnessSlider" type="range" min="0" max="100" value="55" />
+
+                <label class="field">
+                  <span>Export format</span>
+                  <select id="formatSelect">
+                    <option value="image/png">PNG</option>
+                    <option value="image/jpeg" selected>JPG</option>
+                    <option value="image/webp">WEBP</option>
+                  </select>
+                </label>
+
+                <div class="field">
+                  <div class="field-head">
+                    <span>Quality percentage</span>
+                    <strong id="qualityValue">92%</strong>
+                  </div>
+                  <input id="qualitySlider" type="range" min="60" max="100" value="92" />
+                </div>
+
+                <label class="field">
+                  <span>Filename</span>
+                  <input id="filenameInput" type="text" value="sat-upscaled" placeholder="sat-upscaled" />
+                </label>
               </div>
             </div>
 
-            <div class="control-group">
-              <div class="group-head">
-                <h3>Export</h3>
-                <span id="outputPreview" class="chip-label">Output: waiting</span>
-              </div>
-
-              <label class="field">
-                <span>Export format</span>
-                <select id="formatSelect">
-                  <option value="image/png">PNG</option>
-                  <option value="image/jpeg" selected>JPG</option>
-                  <option value="image/webp">WEBP</option>
-                </select>
-              </label>
-
-              <div class="field">
-                <div class="field-head">
-                  <span>Quality percentage</span>
-                  <strong id="qualityValue">92%</strong>
-                </div>
-                <input id="qualitySlider" type="range" min="60" max="100" value="92" />
-              </div>
-
-              <label class="field">
-                <span>Filename</span>
-                <input id="filenameInput" type="text" value="sat-upscaled" placeholder="sat-upscaled" />
-              </label>
-            </div>
-
-            <div class="control-group">
-              <div class="group-head">
-                <h3>Shortcuts</h3>
-              </div>
-              <div class="shortcut-list">
-                <span>`2` Upscale 2x</span>
-                <span>`4` Upscale 4x</span>
-                <span>`F` Fullscreen compare</span>
-                <span>`D` Download</span>
-                <span>`R` Reset</span>
-              </div>
-            </div>
-
-            <div class="button-grid">
+            <div class="button-grid compact-button-grid">
               <button id="upscale2xBtn" class="action-btn primary" type="button" disabled>
                 <span>Upscale 2x</span>
-                <small>Faster enhancement</small>
+                <small>Fast enhancement</small>
               </button>
               <button id="upscale4xBtn" class="action-btn secondary" type="button" disabled>
                 <span>Upscale 4x</span>
-                <small>Maximum detail</small>
+                <small>High detail</small>
               </button>
               <button id="downloadBtn" class="action-btn tertiary" type="button" disabled>
                 <span>Download</span>
@@ -457,9 +203,9 @@
             </div>
           </aside>
 
-          <section class="preview-column">
-            <article class="glass-panel preview-card">
-              <div class="panel-head panel-head-inline">
+          <section class="preview-column compact-preview-column">
+            <article class="glass-panel preview-card compact-preview-card">
+              <div class="panel-head panel-head-inline compact-panel-head-inline">
                 <div>
                   <p class="panel-label">Original Preview</p>
                   <h2>Source</h2>
@@ -470,14 +216,14 @@
                 </div>
               </div>
 
-              <div class="preview-toolbar">
+              <div class="preview-toolbar compact-preview-toolbar">
                 <label class="zoom-field">
                   <span>Zoom</span>
                   <input id="originalZoom" type="range" min="100" max="250" value="100" />
                 </label>
               </div>
 
-              <div class="preview-frame">
+              <div class="preview-frame compact-preview-frame">
                 <div class="preview-canvas" id="originalCanvasWrap">
                   <img id="originalPreview" alt="Original preview" />
                 </div>
@@ -489,15 +235,15 @@
                       <span class="empty-square"></span>
                     </div>
                     <h3>Upload an image to begin</h3>
-                    <p>Your original preview and dimensions will appear here.</p>
+                    <p>Your original preview will appear here.</p>
                   </div>
                 </div>
                 <div id="uploadBurst" class="upload-burst" aria-hidden="true"></div>
               </div>
             </article>
 
-            <article class="glass-panel preview-card">
-              <div class="panel-head panel-head-inline">
+            <article class="glass-panel preview-card compact-preview-card">
+              <div class="panel-head panel-head-inline compact-panel-head-inline">
                 <div>
                   <p class="panel-label">Enhanced Preview</p>
                   <h2>Result</h2>
@@ -508,7 +254,7 @@
                 </div>
               </div>
 
-              <div class="preview-toolbar">
+              <div class="preview-toolbar compact-preview-toolbar">
                 <label class="zoom-field">
                   <span>Zoom</span>
                   <input id="resultZoom" type="range" min="100" max="250" value="100" />
@@ -518,7 +264,7 @@
                 </button>
               </div>
 
-              <div class="preview-frame">
+              <div class="preview-frame compact-preview-frame">
                 <div class="preview-canvas" id="resultCanvasWrap">
                   <img id="upscaledPreview" alt="Upscaled preview" />
                 </div>
@@ -530,7 +276,7 @@
                       <span class="empty-square"></span>
                     </div>
                     <h3>Enhanced result will appear here</h3>
-                    <p>Use the controls on the left to upscale 2x or 4x.</p>
+                    <p>Run a 2x or 4x upscale to preview the result.</p>
                   </div>
                 </div>
 
@@ -558,18 +304,18 @@
               </div>
             </article>
 
-            <article class="glass-panel compare-card">
-              <div class="panel-head panel-head-inline">
+            <article class="glass-panel compare-card compact-compare-card">
+              <div class="panel-head panel-head-inline compact-panel-head-inline">
                 <div>
                   <p class="panel-label">Comparison</p>
                   <h2>Before / After</h2>
                 </div>
                 <div class="compare-actions">
-                  <span class="chip-label">Drag slider to inspect</span>
+                  <span class="chip-label">Drag to inspect</span>
                 </div>
               </div>
 
-              <div class="compare-frame" id="compareFrame">
+              <div class="compare-frame compact-compare-frame" id="compareFrame">
                 <img id="compareBase" alt="Original image comparison" />
                 <div class="compare-overlay" id="compareOverlay">
                   <img id="compareEnhanced" alt="Enhanced image comparison" />
@@ -589,13 +335,47 @@
                 <div class="empty-state compare-empty" id="compareEmpty">
                   <div class="empty-state-inner">
                     <h3>Run an upscale to compare</h3>
-                    <p>Use the fullscreen mode for a larger side-by-side inspection.</p>
+                    <p>Use fullscreen mode for a closer look.</p>
                   </div>
                 </div>
               </div>
             </article>
           </section>
         </section>
+      </section>
+
+      <section id="faq" class="compact-info-grid">
+        <article class="compact-card glass-panel">
+          <p class="panel-label">Overview</p>
+          <h2>Focused AI workspace</h2>
+          <p class="section-text">
+            Sat Upscaler is designed for quick uploads, immediate enhancement
+            controls, responsive previews, and low-friction export.
+          </p>
+          <div class="hero-actions compact-hero-actions">
+            <button id="ctaUploadBtn" class="hero-btn hero-btn-primary" type="button">
+              Upload Image
+            </button>
+          </div>
+        </article>
+
+        <article class="compact-card glass-panel">
+          <p class="panel-label">FAQ</p>
+          <div class="faq-list">
+            <details class="faq-item compact-faq glass-panel">
+              <summary>Does Sat Upscaler upload my image anywhere?</summary>
+              <p>No. The app runs locally in the browser with no backend or external API.</p>
+            </details>
+            <details class="faq-item compact-faq glass-panel">
+              <summary>Which image formats are supported?</summary>
+              <p>Input supports JPG, PNG, and WEBP. Export supports PNG, JPG, and WEBP.</p>
+            </details>
+            <details class="faq-item compact-faq glass-panel">
+              <summary>What happens on low-memory devices?</summary>
+              <p>The app falls back to the classic enhancement path when full AI inference is not suitable.</p>
+            </details>
+          </div>
+        </article>
       </section>
     </main>
 
@@ -635,7 +415,7 @@
     </div>
 
     <footer class="page-footer">
-      <div class="footer-shell glass-panel">
+      <div class="footer-shell glass-panel compact-footer-shell">
         <div class="footer-brand">
           <a class="brand" href="#top" aria-label="Sat Upscaler home">
             <span class="brand-mark">
@@ -649,11 +429,9 @@
           <p>Built with Codex</p>
         </div>
 
-        <div class="footer-links">
-          <a href="#showcase">Showcase</a>
-          <a href="#features">Features</a>
-          <a href="#how-it-works">How It Works</a>
+        <div class="footer-links compact-footer-links">
           <a href="#workspace">Workspace</a>
+          <a href="#overview">Overview</a>
           <a href="#faq">FAQ</a>
         </div>
       </div>
