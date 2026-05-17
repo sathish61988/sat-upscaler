@@ -8,434 +8,254 @@
   </head>
   <body>
     <div class="background-scene" aria-hidden="true">
-      <div class="gradient-orb orb-a"></div>
-      <div class="gradient-orb orb-b"></div>
-      <div class="gradient-orb orb-c"></div>
-      <div class="grid-glow"></div>
+      <div class="background-glow glow-a"></div>
+      <div class="background-glow glow-b"></div>
+      <div class="background-grid"></div>
     </div>
 
-    <header class="site-header">
-      <div class="nav-shell">
-        <a class="brand" href="#top" aria-label="Sat Upscaler home">
-          <span class="brand-mark">
-            <span class="brand-core"></span>
-          </span>
+    <header class="topbar">
+      <div class="topbar-shell">
+        <a class="brand" href="#app" aria-label="Sat Upscaler home">
+          <span class="brand-mark"></span>
           <span class="brand-copy">
             <strong>Sat Upscaler</strong>
-            <small>AI Style Image Upscaler</small>
+            <small>Bulk AI image enhancement</small>
           </span>
         </a>
 
-        <nav class="site-nav" aria-label="Primary">
-          <a href="#workspace">Workspace</a>
-          <a href="#overview">Overview</a>
-          <a href="#faq">FAQ</a>
-        </nav>
-
-        <button id="heroUploadBtn" class="nav-cta" type="button">Upload Image</button>
+        <div class="topbar-meta">
+          <span class="meta-pill">Frontend only</span>
+          <span id="safeModeBadge" class="meta-pill">Safe mode: auto</span>
+          <button id="topbarUploadBtn" class="header-btn" type="button">Add Images</button>
+        </div>
       </div>
     </header>
 
-    <main id="top" class="page-shell compact-page-shell">
-      <section id="overview" class="dashboard-hero glass-panel">
-        <div class="dashboard-copy">
-          <p class="hero-kicker">Fast local super resolution</p>
-          <h1>Upload, upscale, compare.</h1>
-          <p class="hero-body">
-            A focused browser AI workspace with tiled inference, portrait and anime
-            profiles, and responsive previews built for fast interaction.
+    <main id="app" class="app-shell">
+      <section class="app-intro glass-panel">
+        <div>
+          <p class="eyebrow">Compact Batch Dashboard</p>
+          <h1>Upload a batch, upscale everything, download once.</h1>
+          <p class="intro-copy">
+            Utility-first bulk enhancement with browser AI fallback, compact queue
+            management, and ZIP export for finished results.
           </p>
-          <div class="hero-actions compact-hero-actions">
-            <a class="hero-btn hero-btn-secondary" href="#workspace">Open Workspace</a>
-          </div>
         </div>
 
-        <div class="dashboard-meta">
-          <div class="quick-stat">
-            <strong>Browser AI</strong>
-            <span>Lazy-loaded ONNX runtime</span>
-          </div>
-          <div class="quick-stat">
-            <strong>Tile Rendering</strong>
-            <span>Responsive on large images</span>
-          </div>
-          <div class="quick-stat">
-            <strong>GPU First</strong>
-            <span>Graceful fallback ready</span>
-          </div>
+        <div class="intro-stats">
+          <article class="mini-stat">
+            <strong id="queueCount">0</strong>
+            <span>Queued images</span>
+          </article>
+          <article class="mini-stat">
+            <strong id="completedCount">0</strong>
+            <span>Completed</span>
+          </article>
+          <article class="mini-stat">
+            <strong id="failedCount">0</strong>
+            <span>Failed</span>
+          </article>
         </div>
       </section>
 
-      <section id="workspace" class="workspace-shell">
-        <section class="workspace compact-workspace">
-          <aside class="control-column glass-panel">
-            <div class="panel-head compact-panel-head">
+      <section class="toolbar glass-panel">
+        <div class="toolbar-options">
+          <label class="field compact-field">
+            <span>Upscale mode</span>
+            <select id="modeSelect">
+              <option value="fast">Fast</option>
+              <option value="balanced" selected>Balanced</option>
+              <option value="quality">High Quality</option>
+            </select>
+          </label>
+
+          <label class="field compact-field">
+            <span>Scale</span>
+            <select id="scaleSelect">
+              <option value="2">2x</option>
+              <option value="4" selected>4x</option>
+            </select>
+          </label>
+
+          <label class="field compact-field">
+            <span>Export format</span>
+            <select id="formatSelect">
+              <option value="image/png">PNG</option>
+              <option value="image/jpeg" selected>JPG</option>
+              <option value="image/webp">WEBP</option>
+            </select>
+          </label>
+
+          <label class="field compact-field">
+            <span>Quality</span>
+            <div class="range-inline">
+              <input id="qualitySlider" type="range" min="60" max="100" value="92" />
+              <strong id="qualityValue">92%</strong>
+            </div>
+          </label>
+
+          <label class="field compact-field">
+            <span>Sharpness</span>
+            <div class="range-inline">
+              <input id="sharpnessSlider" type="range" min="0" max="100" value="55" />
+              <strong id="sharpnessValue">55%</strong>
+            </div>
+          </label>
+        </div>
+
+        <div class="toolbar-actions">
+          <button id="uploadBtn" class="action-btn secondary" type="button">Upload Images</button>
+          <button id="upscaleAllBtn" class="action-btn primary" type="button">Upscale All</button>
+          <button id="cancelBtn" class="action-btn ghost" type="button" disabled>Cancel Batch</button>
+          <button id="zipBtn" class="action-btn ghost" type="button" disabled>Download All as ZIP</button>
+          <button id="clearCompletedBtn" class="action-btn ghost" type="button">Clear Completed</button>
+        </div>
+      </section>
+
+      <section class="workspace-grid">
+        <aside class="queue-panel glass-panel">
+          <div class="panel-head">
+            <div>
+              <p class="eyebrow">Bulk Upload</p>
+              <h2>Queue</h2>
+            </div>
+            <span id="aiStatus" class="meta-pill">AI runtime idle</span>
+          </div>
+
+          <label id="dropzone" class="dropzone" for="fileInput" aria-label="Upload images">
+            <input
+              id="fileInput"
+              type="file"
+              accept=".jpg,.jpeg,.png,.webp,image/jpeg,image/png,image/webp"
+              multiple
+            />
+            <div class="dropzone-content">
+              <div class="dropzone-icon"></div>
               <div>
-                <p class="panel-label">Input</p>
-                <h2>Upload & Configure</h2>
-              </div>
-              <span id="timeEstimate" class="chip-label">Estimate: waiting</span>
-            </div>
-
-            <label for="fileInput" id="dropzone" class="dropzone compact-dropzone" aria-label="Upload an image">
-              <input
-                type="file"
-                id="fileInput"
-                accept=".jpg,.jpeg,.png,.webp,image/jpeg,image/png,image/webp"
-              />
-              <div class="dropzone-glow" aria-hidden="true"></div>
-              <div class="dropzone-content compact-dropzone-content">
-                <div class="empty-illustration">
-                  <span class="empty-ring"></span>
-                  <span class="empty-dot"></span>
-                  <span class="empty-square"></span>
-                </div>
-                <h3>Drop image here</h3>
-                <p>or tap to browse</p>
-                <div class="dropzone-tips">
-                  <span>JPG, PNG, WEBP</span>
-                  <span>Max 10MB</span>
-                  <span>Ctrl/Cmd + V</span>
-                </div>
-              </div>
-            </label>
-
-            <div class="status-card compact-status-card">
-              <p id="statusMessage" class="status-message" role="status" aria-live="polite">
-                Ready for your first image.
-              </p>
-            </div>
-
-            <div class="control-grid">
-              <div class="control-group">
-                <div class="group-head">
-                  <h3>Enhancement</h3>
-                  <span id="aiStatus" class="chip-label">Lazy-loaded</span>
-                </div>
-
-                <label class="field">
-                  <span>Upscale mode</span>
-                  <select id="modeSelect">
-                    <option value="balanced" selected>Balanced</option>
-                    <option value="sharp">Sharp</option>
-                    <option value="photo">Photo</option>
-                    <option value="anime">Anime</option>
-                  </select>
-                </label>
-
-                <label class="field">
-                  <span>AI model profile</span>
-                  <select id="aiProfileSelect">
-                    <option value="general" selected>General</option>
-                    <option value="portrait">Portrait</option>
-                    <option value="anime">Anime</option>
-                  </select>
-                </label>
-
-                <p id="aiHint" class="helper-text">
-                  AI profile: General. The ONNX model is lazy-loaded only when you start an upscale.
-                </p>
-
-                <div class="field">
-                  <div class="field-head">
-                    <span>Denoise strength</span>
-                    <strong id="denoiseValue">20%</strong>
-                  </div>
-                  <input id="denoiseSlider" type="range" min="0" max="100" value="20" />
-                </div>
-
-                <div class="field">
-                  <div class="field-head">
-                    <span>Sharpness intensity</span>
-                    <strong id="sharpnessValue">55%</strong>
-                  </div>
-                  <input id="sharpnessSlider" type="range" min="0" max="100" value="55" />
-                </div>
-              </div>
-
-              <div class="control-group">
-                <div class="group-head">
-                  <h3>Export</h3>
-                  <span id="outputPreview" class="chip-label">Output: waiting</span>
-                </div>
-
-                <label class="field">
-                  <span>Export format</span>
-                  <select id="formatSelect">
-                    <option value="image/png">PNG</option>
-                    <option value="image/jpeg" selected>JPG</option>
-                    <option value="image/webp">WEBP</option>
-                  </select>
-                </label>
-
-                <div class="field">
-                  <div class="field-head">
-                    <span>Quality percentage</span>
-                    <strong id="qualityValue">92%</strong>
-                  </div>
-                  <input id="qualitySlider" type="range" min="60" max="100" value="92" />
-                </div>
-
-                <label class="field">
-                  <span>Filename</span>
-                  <input id="filenameInput" type="text" value="sat-upscaled" placeholder="sat-upscaled" />
-                </label>
+                <h3>Drop multiple images here</h3>
+                <p>JPG, PNG, WEBP up to 10MB each. You can also paste from clipboard.</p>
               </div>
             </div>
+          </label>
 
-            <div class="button-grid compact-button-grid">
-              <button id="upscale2xBtn" class="action-btn primary" type="button" disabled>
-                <span>Upscale 2x</span>
-                <small>Fast enhancement</small>
-              </button>
-              <button id="upscale4xBtn" class="action-btn secondary" type="button" disabled>
-                <span>Upscale 4x</span>
-                <small>High detail</small>
-              </button>
-              <button id="downloadBtn" class="action-btn tertiary" type="button" disabled>
-                <span>Download</span>
-                <small>Export current result</small>
-              </button>
-              <button id="resetBtn" class="action-btn ghost" type="button">
-                <span>Reset</span>
-                <small>Clear workspace</small>
-              </button>
+          <div class="status-row">
+            <p id="statusMessage" class="status-message" role="status" aria-live="polite">
+              Ready for a batch.
+            </p>
+            <button id="resetAllBtn" class="text-btn" type="button">Reset Queue</button>
+          </div>
+
+          <div class="batch-overview">
+            <div class="batch-counters">
+              <span>Pending <strong id="pendingCount">0</strong></span>
+              <span>Processing <strong id="processingCount">0</strong></span>
+              <span>Done <strong id="doneCount">0</strong></span>
+              <span>Failed <strong id="batchFailedCount">0</strong></span>
             </div>
-          </aside>
+            <div class="progress-block">
+              <div class="progress-meta">
+                <span id="batchProgressLabel">Batch progress</span>
+                <strong id="batchProgressText">0%</strong>
+              </div>
+              <div class="progress-bar">
+                <div id="batchProgressFill" class="progress-fill"></div>
+              </div>
+            </div>
+          </div>
 
-          <section class="preview-column compact-preview-column">
-            <article class="glass-panel preview-card compact-preview-card">
-              <div class="panel-head panel-head-inline compact-panel-head-inline">
+          <div id="queueGrid" class="queue-grid" aria-live="polite"></div>
+          <div id="emptyQueue" class="queue-empty">
+            <div class="empty-illustration"></div>
+            <h3>No images in queue</h3>
+            <p>Add multiple files to start a safe sequential batch upscale.</p>
+          </div>
+        </aside>
+
+        <section class="preview-panel glass-panel">
+          <div class="panel-head">
+            <div>
+              <p class="eyebrow">Selected Item</p>
+              <h2 id="selectedTitle">No image selected</h2>
+            </div>
+            <span id="selectedMeta" class="panel-note">Choose a queue item to inspect.</span>
+          </div>
+
+          <div class="preview-grid">
+            <article class="preview-card">
+              <div class="preview-head">
                 <div>
-                  <p class="panel-label">Original Preview</p>
-                  <h2>Source</h2>
-                </div>
-                <div class="meta-stack">
-                  <span id="originalBadge" class="meta-badge">Idle</span>
-                  <span id="originalMeta" class="meta-caption">No image loaded</span>
+                  <p class="preview-label">Original</p>
+                  <strong id="originalMeta">Waiting for upload</strong>
                 </div>
               </div>
-
-              <div class="preview-toolbar compact-preview-toolbar">
-                <label class="zoom-field">
-                  <span>Zoom</span>
-                  <input id="originalZoom" type="range" min="100" max="250" value="100" />
-                </label>
-              </div>
-
-              <div class="preview-frame compact-preview-frame">
-                <div class="preview-canvas" id="originalCanvasWrap">
-                  <img id="originalPreview" alt="Original preview" />
+              <div class="preview-frame">
+                <img id="originalPreview" alt="Original preview" />
+                <div id="originalEmpty" class="preview-empty">
+                  <p>The selected source image appears here.</p>
                 </div>
-                <div class="empty-state" id="originalEmpty">
-                  <div class="empty-state-inner">
-                    <div class="empty-illustration large">
-                      <span class="empty-ring"></span>
-                      <span class="empty-dot"></span>
-                      <span class="empty-square"></span>
-                    </div>
-                    <h3>Upload an image to begin</h3>
-                    <p>Your original preview will appear here.</p>
-                  </div>
-                </div>
-                <div id="uploadBurst" class="upload-burst" aria-hidden="true"></div>
               </div>
             </article>
 
-            <article class="glass-panel preview-card compact-preview-card">
-              <div class="panel-head panel-head-inline compact-panel-head-inline">
+            <article class="preview-card">
+              <div class="preview-head">
                 <div>
-                  <p class="panel-label">Enhanced Preview</p>
-                  <h2>Result</h2>
+                  <p class="preview-label">Upscaled</p>
+                  <strong id="resultMeta">No result yet</strong>
                 </div>
-                <div class="meta-stack">
-                  <span id="resultBadge" class="meta-badge">Waiting</span>
-                  <span id="resultMeta" class="meta-caption">Waiting to process</span>
-                </div>
-              </div>
-
-              <div class="preview-toolbar compact-preview-toolbar">
-                <label class="zoom-field">
-                  <span>Zoom</span>
-                  <input id="resultZoom" type="range" min="100" max="250" value="100" />
-                </label>
-                <button id="fullscreenBtn" class="ghost-inline-btn" type="button" disabled>
-                  Fullscreen Compare
+                <button id="downloadSelectedBtn" class="text-btn" type="button" disabled>
+                  Download Selected
                 </button>
               </div>
-
-              <div class="preview-frame compact-preview-frame">
-                <div class="preview-canvas" id="resultCanvasWrap">
-                  <img id="upscaledPreview" alt="Upscaled preview" />
+              <div class="preview-frame">
+                <img id="resultPreview" alt="Upscaled preview" />
+                <div id="resultEmpty" class="preview-empty">
+                  <p>Run the batch to generate the upscaled result.</p>
                 </div>
-                <div class="empty-state" id="resultEmpty">
-                  <div class="empty-state-inner">
-                    <div class="empty-illustration large alt">
-                      <span class="empty-ring"></span>
-                      <span class="empty-dot"></span>
-                      <span class="empty-square"></span>
-                    </div>
-                    <h3>Enhanced result will appear here</h3>
-                    <p>Run a 2x or 4x upscale to preview the result.</p>
-                  </div>
-                </div>
-
                 <div id="loader" class="loader-overlay" hidden>
-                  <div class="loader-core">
-                    <span class="loader-layer loader-layer-a"></span>
-                    <span class="loader-layer loader-layer-b"></span>
-                    <span class="loader-center"></span>
-                  </div>
+                  <div class="loader-spinner"></div>
                   <div class="loader-copy">
                     <strong id="progressValue">0%</strong>
                     <p id="progressStage">Preparing enhancement pipeline...</p>
                   </div>
                 </div>
               </div>
-
-              <div class="progress-card">
-                <div class="progress-meta">
-                  <span>Processing Progress</span>
-                  <span id="progressText">0%</span>
-                </div>
-                <div class="progress-bar">
-                  <div id="progressBarFill" class="progress-bar-fill"></div>
-                </div>
-              </div>
             </article>
+          </div>
 
-            <article class="glass-panel compare-card compact-compare-card">
-              <div class="panel-head panel-head-inline compact-panel-head-inline">
-                <div>
-                  <p class="panel-label">Comparison</p>
-                  <h2>Before / After</h2>
-                </div>
-                <div class="compare-actions">
-                  <span class="chip-label">Drag to inspect</span>
-                </div>
+          <article class="compare-card">
+            <div class="preview-head">
+              <div>
+                <p class="preview-label">Compare</p>
+                <strong>Before / After</strong>
               </div>
+              <span class="panel-note">Drag the slider to inspect the selected result.</span>
+            </div>
 
-              <div class="compare-frame compact-compare-frame" id="compareFrame">
-                <img id="compareBase" alt="Original image comparison" />
-                <div class="compare-overlay" id="compareOverlay">
-                  <img id="compareEnhanced" alt="Enhanced image comparison" />
-                </div>
-                <div id="compareLine" class="compare-line"></div>
-                <div class="compare-label compare-label-before">Before</div>
-                <div class="compare-label compare-label-after">After</div>
-                <input
-                  id="compareSlider"
-                  type="range"
-                  min="0"
-                  max="100"
-                  value="50"
-                  aria-label="Comparison slider"
-                  disabled
-                />
-                <div class="empty-state compare-empty" id="compareEmpty">
-                  <div class="empty-state-inner">
-                    <h3>Run an upscale to compare</h3>
-                    <p>Use fullscreen mode for a closer look.</p>
-                  </div>
-                </div>
+            <div id="compareFrame" class="compare-frame">
+              <img id="compareBase" alt="Original comparison" />
+              <div id="compareOverlay" class="compare-overlay">
+                <img id="compareEnhanced" alt="Upscaled comparison" />
               </div>
-            </article>
-          </section>
+              <div id="compareLine" class="compare-line"></div>
+              <input
+                id="compareSlider"
+                type="range"
+                min="0"
+                max="100"
+                value="50"
+                aria-label="Comparison slider"
+                disabled
+              />
+              <div id="compareEmpty" class="preview-empty compare-empty">
+                <p>Comparison becomes available when the selected item finishes.</p>
+              </div>
+            </div>
+          </article>
         </section>
-      </section>
-
-      <section id="faq" class="compact-info-grid">
-        <article class="compact-card glass-panel">
-          <p class="panel-label">Overview</p>
-          <h2>Focused AI workspace</h2>
-          <p class="section-text">
-            Sat Upscaler is designed for quick uploads, immediate enhancement
-            controls, responsive previews, and low-friction export.
-          </p>
-          <div class="hero-actions compact-hero-actions">
-            <button id="ctaUploadBtn" class="hero-btn hero-btn-primary" type="button">
-              Upload Image
-            </button>
-          </div>
-        </article>
-
-        <article class="compact-card glass-panel">
-          <p class="panel-label">FAQ</p>
-          <div class="faq-list">
-            <details class="faq-item compact-faq glass-panel">
-              <summary>Does Sat Upscaler upload my image anywhere?</summary>
-              <p>No. The app runs locally in the browser with no backend or external API.</p>
-            </details>
-            <details class="faq-item compact-faq glass-panel">
-              <summary>Which image formats are supported?</summary>
-              <p>Input supports JPG, PNG, and WEBP. Export supports PNG, JPG, and WEBP.</p>
-            </details>
-            <details class="faq-item compact-faq glass-panel">
-              <summary>What happens on low-memory devices?</summary>
-              <p>The app falls back to the classic enhancement path when full AI inference is not suitable.</p>
-            </details>
-          </div>
-        </article>
       </section>
     </main>
 
     <div id="toastStack" class="toast-stack" aria-live="polite" aria-atomic="true"></div>
-
-    <div id="fullscreenModal" class="modal" hidden>
-      <div class="modal-backdrop" data-close-modal="true"></div>
-      <div class="modal-dialog glass-panel" role="dialog" aria-modal="true" aria-labelledby="modalTitle">
-        <div class="modal-head">
-          <div>
-            <p class="panel-label">Fullscreen Compare</p>
-            <h2 id="modalTitle">Inspect the enhancement in detail</h2>
-          </div>
-          <button id="closeModalBtn" class="modal-close" type="button" aria-label="Close modal">
-            ×
-          </button>
-        </div>
-
-        <div class="compare-frame modal-compare-frame" id="modalCompareFrame">
-          <img id="modalCompareBase" alt="Fullscreen original comparison" />
-          <div class="compare-overlay" id="modalCompareOverlay">
-            <img id="modalCompareEnhanced" alt="Fullscreen enhanced comparison" />
-          </div>
-          <div id="modalCompareLine" class="compare-line"></div>
-          <div class="compare-label compare-label-before">Before</div>
-          <div class="compare-label compare-label-after">After</div>
-          <input
-            id="modalCompareSlider"
-            type="range"
-            min="0"
-            max="100"
-            value="50"
-            aria-label="Fullscreen comparison slider"
-          />
-        </div>
-      </div>
-    </div>
-
-    <footer class="page-footer">
-      <div class="footer-shell glass-panel compact-footer-shell">
-        <div class="footer-brand">
-          <a class="brand" href="#top" aria-label="Sat Upscaler home">
-            <span class="brand-mark">
-              <span class="brand-core"></span>
-            </span>
-            <span class="brand-copy">
-              <strong>Sat Upscaler</strong>
-              <small>AI Style Image Upscaler</small>
-            </span>
-          </a>
-          <p>Built with Codex</p>
-        </div>
-
-        <div class="footer-links compact-footer-links">
-          <a href="#workspace">Workspace</a>
-          <a href="#overview">Overview</a>
-          <a href="#faq">FAQ</a>
-        </div>
-      </div>
-    </footer>
 
     <script src="script.js"></script>
   </body>
