@@ -2,28 +2,29 @@ const sessionCache = new Map();
 let ortReady = false;
 
 self.onmessage = async (event) => {
-  const { id, type, payload } = event.data;
+  const { id, type, payload, itemId } = event.data;
 
   if (type !== "upscale") {
     return;
   }
 
   try {
-    const result = await runUpscale(payload, id);
-    self.postMessage({ id, ...result }, [result.buffer]);
+    const result = await runUpscale(payload, id, itemId);
+    self.postMessage({ id, itemId, ...result }, [result.buffer]);
   } catch (error) {
     self.postMessage({
       id,
+      itemId,
       type: "error",
       message: error instanceof Error ? error.message : "AI upscale failed",
     });
   }
 };
 
-async function runUpscale(payload, id) {
-  await ensureOrtRuntime(payload.runtimeUrl, id);
+async function runUpscale(payload, id, itemId) {
+  await ensureOrtRuntime(payload.runtimeUrl, id, itemId);
 
-  const sessionData = await getSession(payload.modelUrl, payload.preferGpu, id);
+  const sessionData = await getSession(payload.modelUrl, payload.preferGpu, id, itemId);
   const sourcePixels = new Uint8ClampedArray(payload.buffer);
   const sourceImage = new ImageData(sourcePixels, payload.width, payload.height);
   const sourceCanvas = new OffscreenCanvas(payload.width, payload.height);
@@ -38,7 +39,7 @@ async function runUpscale(payload, id) {
   const tilesY = Math.ceil(payload.height / payload.tileSize);
   const totalTiles = tilesX * tilesY;
 
-  postProgress(id, "tiling");
+  postProgress(id, itemId, "tiling");
 
   let tileIndex = 0;
 
@@ -78,7 +79,7 @@ async function runUpscale(payload, id) {
 
       resultContext.putImageData(tileImageData, drawX - cropX, drawY - cropY, cropX, cropY, cropWidth, cropHeight);
 
-      postProgress(id, "tile", {
+      postProgress(id, itemId, "tile", {
         completed: tileIndex,
         total: totalTiles,
       });
@@ -89,7 +90,7 @@ async function runUpscale(payload, id) {
   const targetHeight = Math.max(1, Math.round(payload.height * payload.outputScale));
 
   if (targetWidth !== upscaledWidth || targetHeight !== upscaledHeight) {
-    postProgress(id, "downscale");
+    postProgress(id, itemId, "downscale");
     const finalCanvas = new OffscreenCanvas(targetWidth, targetHeight);
     const finalContext = finalCanvas.getContext("2d", { alpha: true });
     finalContext.imageSmoothingEnabled = true;
@@ -118,27 +119,27 @@ async function runUpscale(payload, id) {
   };
 }
 
-async function ensureOrtRuntime(runtimeUrl, id) {
+async function ensureOrtRuntime(runtimeUrl, id, itemId) {
   if (ortReady) {
     return;
   }
 
-  postProgress(id, "runtime-loading");
+  postProgress(id, itemId, "runtime-loading");
   importScripts(runtimeUrl);
   self.ort.env.wasm.numThreads = Math.max(1, Math.min(4, Math.floor((self.navigator.hardwareConcurrency || 4) / 2)));
   self.ort.env.wasm.proxy = false;
   ortReady = true;
 }
 
-async function getSession(modelUrl, preferGpu, id) {
+async function getSession(modelUrl, preferGpu, id, itemId) {
   const cacheKey = `${modelUrl}::${preferGpu ? "gpu" : "cpu"}`;
 
   if (sessionCache.has(cacheKey)) {
     return sessionCache.get(cacheKey);
   }
 
-  const modelBuffer = await fetchModelWithProgress(modelUrl, id);
-  postProgress(id, "session-creating");
+  const modelBuffer = await fetchModelWithProgress(modelUrl, id, itemId);
+  postProgress(id, itemId, "session-creating");
 
   const executionProviders = preferGpu ? ["webgpu", "wasm"] : ["wasm"];
   const session = await self.ort.InferenceSession.create(modelBuffer, {
@@ -154,11 +155,11 @@ async function getSession(modelUrl, preferGpu, id) {
   };
 
   sessionCache.set(cacheKey, sessionData);
-  postProgress(id, "session-ready", { providerLabel: sessionData.providerLabel });
+  postProgress(id, itemId, "session-ready", { providerLabel: sessionData.providerLabel });
   return sessionData;
 }
 
-async function fetchModelWithProgress(modelUrl, id) {
+async function fetchModelWithProgress(modelUrl, id, itemId) {
   const response = await fetch(modelUrl);
   if (!response.ok) {
     throw new Error(`Model request failed: ${response.status}`);
@@ -181,7 +182,7 @@ async function fetchModelWithProgress(modelUrl, id) {
 
     chunks.push(value);
     loaded += value.byteLength;
-    postProgress(id, "model-download", {
+    postProgress(id, itemId, "model-download", {
       loaded,
       total: contentLength,
     });
@@ -239,9 +240,10 @@ function tensorToImageData(tensor, width, height) {
   return new ImageData(output, width, height);
 }
 
-function postProgress(id, phase, extra = {}) {
+function postProgress(id, itemId, phase, extra = {}) {
   self.postMessage({
     id,
+    itemId,
     type: "progress",
     phase,
     ...extra,
